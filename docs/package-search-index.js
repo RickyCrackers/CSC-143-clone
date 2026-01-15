@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"construction"},{"l":"examples.graphics.ball"},{"l":"examples.graphics.circles"},{"l":"examples.lists"},{"l":"junits"},{"l":"snakebyte"},{"l":"utils"}];updateSearchResults();
+packageSearchIndex = [{"l":"algorithms"},{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"construction"},{"l":"junits"},{"l":"lists"},{"l":"programs"},{"l":"snakebyte"},{"l":"sudoku"},{"l":"trees"},{"l":"utils"}];updateSearchResults();
