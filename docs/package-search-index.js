@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"construction"},{"l":"examples.graphics.ball"},{"l":"examples.graphics.circles"},{"l":"examples.lists"},{"l":"junits"},{"l":"snakebyte"},{"l":"utils"}];updateSearchResults();
