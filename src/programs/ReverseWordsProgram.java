@@ -57,17 +57,15 @@ public class ReverseWordsProgram {
             String line = scanner.nextLine();
 
             //TODO: get each word on each line using a delimiter and store in index location
-            String[] words = line.split("\\s+");
+            String[] words = line.split(" ");
 
             //TODO: store words in reverse
             //TODO: use string builder to build out lines with space
             StringBuilder reversedLine = new StringBuilder();
             for (int i = words.length - 1; i >= 0; i--) {
-                reversedLine.append(words[i]);
-                if (i > 0) {
-                    reversedLine.append(" ");
+                reversedLine.append(words[i]).append(" ");
                 }
-            }
+
 
             //TODO: add each reversed line to list as a string
             list.add(reversedLine.toString());
