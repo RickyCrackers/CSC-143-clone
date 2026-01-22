@@ -18,7 +18,7 @@ public class Temperature {
     }
 
     public double getKelvin() {
-        return (fahrenheit + 459.67) * 5 / 9;
+        return ((fahrenheit - 32) * 5.0 / 9.0) + 273.15;
     }
 
     public void setCelsius(double celsius) {
@@ -30,7 +30,7 @@ public class Temperature {
     }
 
     public void setKelvin(double kelvin) {
-        this.fahrenheit = kelvin * 9 / 5 - 459.67;
+        this.fahrenheit = ((kelvin - 273.15) * 9.0 / 5.0) + 32;
     }
 
 }

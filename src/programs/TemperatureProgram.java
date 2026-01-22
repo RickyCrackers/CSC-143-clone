@@ -4,8 +4,7 @@ import construction.Temperature;
 import java.util.Scanner;
 
 public class TemperatureProgram {
-    @SuppressWarnings("unused")
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Temperature temperature = new Temperature();
         Scanner scan = new Scanner(System.in);
 
@@ -45,7 +44,6 @@ public class TemperatureProgram {
                 break;
         }
 
-        // Output results (Accessors)
         System.out.println("--- Results ---");
         System.out.printf("Fahrenheit: %.2f%n", temperature.getFahrenheit());
         System.out.printf("Celsius:    %.2f%n", temperature.getCelsius());
