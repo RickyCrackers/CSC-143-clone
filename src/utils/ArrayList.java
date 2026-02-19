@@ -88,11 +88,11 @@ public  class ArrayList<E> extends AbstractList<E> {
         size = 0;
     }
 
-    @Override
     public boolean contains(E item) {
         return super.contains(item);
     }
 
+    @SuppressWarnings("unchecked")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
