@@ -8,11 +8,6 @@ package utils;
  */
 
 public interface List<E> {
-    //TODO: List the operations for the Generic List Interface.
-
-    //TODO: Fill in the following
-    //      (a) abstract methods
-    //      (b) default methods
 
     boolean add(E item);
     void add(int index, E item);
