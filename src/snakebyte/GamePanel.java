@@ -1,6 +1,7 @@
 package snakebyte;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.io.Serial;
@@ -41,7 +42,9 @@ public class GamePanel extends JPanel {
         scoreColor  = new Color(0, 150, 250);
         gameButton  = new JButton("New Game");
 
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         controller  = keyController;
+        controller.setGamePanel(this);
         snake       = controller.snake;
         food        = controller.food;
 
@@ -49,7 +52,6 @@ public class GamePanel extends JPanel {
 
 
     public void draw(Graphics gameGraphics){
-        repaint();
         gameGraphics.setColor(bgColor);
         gameGraphics.fillRect(0, 0, WIDTH, HEIGHT);
         gameGraphics.setColor(scoreColor);
@@ -60,7 +62,6 @@ public class GamePanel extends JPanel {
     }
 
     private void printGameOver(Graphics gameGraphics){
-        repaint();
         gameGraphics.setColor(fontColor);
         gameGraphics.setFont( new Font("Verdana", Font.BOLD, 60) );
         gameGraphics.drawString("Game Over", WIDTH / 4, HEIGHT / 2);

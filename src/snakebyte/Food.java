@@ -40,22 +40,24 @@ public class Food {
 
     //TODO: create accessor for food x location
     public double getX() {
-        return 0;
+        return x;
     }
 
     //TODO: create accessor for food y location
     public double getY() {
-        return 0;
+        return y;
     }
 
     public void setLocation() {
 
-        //TODO: set random location for the food on screen.
+        int slotsX = GamePanel.WIDTH / Food.SIZE;
+        int slotsY = GamePanel.HEIGHT / Food.SIZE;
 
-        //TODO: Reflect if at/on the left wall
+        int randomSlotX = (int) (Math.random() * slotsX);
+        int randomSlotY = (int) (Math.random() * slotsY);
 
-        //TODO: Reflect if at/on the bottom wall
-
+        x = randomSlotX * Food.SIZE;
+        y = randomSlotY * Food.SIZE;
     }
 
 }

@@ -43,12 +43,14 @@ public class Viewer{
         frame.add(leftPanel, BorderLayout.EAST);
         frame.add(rightPanel, BorderLayout.WEST);
         frame.add(keyController.bottomPanel, BorderLayout.SOUTH);
-        frame.setSize(WIDTH, HEIGHT);
+        frame.pack();
         frame.setLocation(LEFT_X, TOP_Y);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        SwingUtilities.invokeLater(gamePanel::requestFocusInWindow);
     }
 
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Viewer::new);
     }

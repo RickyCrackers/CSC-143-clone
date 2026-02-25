@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
+
 import utils.List;
 import utils.ArrayList;
 
@@ -28,7 +29,7 @@ public class Snake {
 
     public Snake() {
         bodyColor   = Color.WHITE;
-        //direction   = Direction.RIGHT;
+        direction   = Direction.RIGHT;
         isMoving    = false;
         snakeBody   = make();
     }
@@ -41,57 +42,61 @@ public class Snake {
 
         // draw the snake body at given location
         //TODO: "Un-Comment" when Snake and Point classes are completed
-//        for (int i = 0; i < snakeBody.size(); i++) {
-//            Point point = snakeBody.get(i);
-//            xLocation = point.getX();
-//            yLocation = point.getY();
-//
-//            RoundRectangle2D body = new RoundRectangle2D.Double();
-//            body.setRoundRect(xLocation, yLocation, SQUARE, SQUARE, arcSize, arcSize);
-//
-//            // Each additional growth is MAGENTA
-//            if(i == 0){
-//                pen.setColor(Color.CYAN);
-//            } else{
-//                if (i >= STARTING_LENGTH) {
-//                    pen.setColor(Color.MAGENTA);
-//                } else {
-//                    pen.setColor(bodyColor);
-//                }
-//            }
-//            pen.draw(body);
-//
-//        }
+        for (int i = 0; i < snakeBody.size(); i++) {
+            Point point = snakeBody.get(i);
+            xLocation = point.getX();
+            yLocation = point.getY();
+
+            RoundRectangle2D body = new RoundRectangle2D.Double();
+            body.setRoundRect(xLocation, yLocation, SQUARE, SQUARE, arcSize, arcSize);
+
+            // Each additional growth is MAGENTA
+            if(i == 0){
+                pen.setColor(Color.CYAN);
+            } else{
+                if (i >= STARTING_LENGTH) {
+                    pen.setColor(Color.MAGENTA);
+                } else {
+                    pen.setColor(bodyColor);
+                }
+            }
+            pen.draw(body);
+
+        }
 
     }
 
     //TODO: return all points in the snake point
     public List<Point> getBody() {
-        return null;
+        return snakeBody;
     }
 
     //TODO: return the snake head (x, y) location
     public Point getHeadLocation() {
-        return null;
+        return snakeBody.get(0);
     }
 
     //TODO: return the snake tail (x, y) location
     public Point getTailLocation() {
-        return null;
+        return snakeBody.get(snakeBody.size() - 1);
     }
 
     //FIXME: return the current snake head x location.
     public double getX() {
-        return 0.0;
+        return snakeBody.get(0).getX();
     }
 
     //FIXME: return the current snake head y location.
     public double getY() {
-        return 0.0;
+        return snakeBody.get(0).getY();
     }
 
     //FIXME: add a new SQUARE to the tail end of the snake body.
     public void grow() {
+        Point tail = snakeBody.get(snakeBody.size() - 1);
+        Point newPoint = new Point(tail.getX(), tail.getY());
+        snakeBody.add(newPoint);
+
 
     }
 
@@ -102,8 +107,11 @@ public class Snake {
     // NOTES: Snake points TO RIGHT -> START_X_LOCATION - (i * SQUARE), START_Y_LOCATION)
     //        Snake points TO LEFT  -> START_X_LOCATION + (i * SQUARE), START_Y_LOCATION)
     private List<Point> make() {
-
         List<Point> body = new ArrayList<>();
+        for (int i = 0; i < STARTING_LENGTH; i++) {
+            Point point = new Point(START_X_LOCATION - (i * SQUARE), START_Y_LOCATION);
+            body.add(point);
+        }
 
         return body;
     }
@@ -119,12 +127,20 @@ public class Snake {
     // newX = head.getX() + direction.getX() * SQUARE;
     // newY = head.getY() + direction.getY() * SQUARE;
     public void move() {
+        if(isMoving) {
+            Point head = snakeBody.get(0);
+            double newX = head.getX() + direction.getX() * SQUARE;
+            double newY = head.getY() + direction.getY() * SQUARE;
 
+            Point newHead = new Point(newX, newY);
+            snakeBody.add(0, newHead);
+            snakeBody.remove(snakeBody.size() - 1);
+        }
     }
 
     //TODO: Use this method to test and set snake moving
     public void setMoving(boolean isMoving) {
-
+        this.isMoving = isMoving;
     }
 
 }
