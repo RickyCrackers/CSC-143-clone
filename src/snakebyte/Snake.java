@@ -83,17 +83,17 @@ public class Snake {
 
     //FIXME: return the current snake head x location.
     public double getX() {
-        return snakeBody.get(0).getX();
+        return getHeadLocation().getX();
     }
 
     //FIXME: return the current snake head y location.
     public double getY() {
-        return snakeBody.get(0).getY();
+        return getHeadLocation().getY();
     }
 
     //FIXME: add a new SQUARE to the tail end of the snake body.
     public void grow() {
-        Point tail = snakeBody.get(snakeBody.size() - 1);
+        Point tail = getTailLocation();
         Point newPoint = new Point(tail.getX(), tail.getY());
         snakeBody.add(newPoint);
 
@@ -128,7 +128,7 @@ public class Snake {
     // newY = head.getY() + direction.getY() * SQUARE;
     public void move() {
         if(isMoving) {
-            Point head = snakeBody.get(0);
+            Point head = getHeadLocation();
             double newX = head.getX() + direction.getX() * SQUARE;
             double newY = head.getY() + direction.getY() * SQUARE;
 
