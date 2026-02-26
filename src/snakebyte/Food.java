@@ -25,7 +25,7 @@ public class Food {
     private final Color     foodColor;
 
     //TODO : set snake location on screen
-    public Food() {
+    public Food(Snake snake) {
         this.foodColor  = Color.GREEN;
         setLocation();
     }

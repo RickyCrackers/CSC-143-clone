@@ -11,8 +11,8 @@ package snakebyte;
 public class Point {
 
     //TODO: Create data field and constructor
-    private double x;
-    private double y;
+    public double x;
+    public double y;
 
     public Point(double x, double y) {
         this.x = x;

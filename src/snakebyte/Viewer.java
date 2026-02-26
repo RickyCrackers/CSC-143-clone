@@ -32,6 +32,8 @@ public class Viewer{
         gamePanel.setFocusable(true);
         gamePanel.setFocusTraversalKeysEnabled(false);
 
+        topPanel.add(gamePanel.gameButton);
+
         topPanel.setBackground(bottomColor);
         leftPanel.setBackground(bottomColor);
         rightPanel.setBackground(bottomColor);

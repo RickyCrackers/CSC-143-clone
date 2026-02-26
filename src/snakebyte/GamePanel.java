@@ -31,7 +31,6 @@ public class GamePanel extends JPanel {
     protected JButton gameButton;
 
     KeyController controller;
-    Food    food;
     Snake   snake;
 
 
@@ -42,12 +41,12 @@ public class GamePanel extends JPanel {
         scoreColor  = new Color(0, 150, 250);
         gameButton  = new JButton("New Game");
 
+        gameButton.addActionListener(e -> keyController.createNewGame());
+
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         controller  = keyController;
         controller.setGamePanel(this);
         snake       = controller.snake;
-        food        = controller.food;
-
     }
 
 
@@ -56,9 +55,11 @@ public class GamePanel extends JPanel {
         gameGraphics.fillRect(0, 0, WIDTH, HEIGHT);
         gameGraphics.setColor(scoreColor);
         gameGraphics.setFont( new Font("Helvetica", Font.BOLD, 20) );
-        gameGraphics.drawString("Score : " + controller.getScore() , WIDTH / 20, HEIGHT / 20);
+        gameGraphics.drawString("Score : " + controller.getScore() + "  |  Level : " + controller.getLevel(), WIDTH / 20, HEIGHT / 20);
         snake.draw(gameGraphics);
-        food.draw(gameGraphics);
+        for (int i = 0; i < controller.getFoods().size(); i++) {
+            controller.getFoods().get(i).draw(gameGraphics);
+        }
     }
 
     private void printGameOver(Graphics gameGraphics){
@@ -72,6 +73,13 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics gameGraphics) {
         super.paintComponent(gameGraphics);
         draw(gameGraphics);
+
+        if(controller.isPaused()){
+            gameGraphics.setColor(fontColor);
+            gameGraphics.setFont(new Font("Verdana", Font.BOLD, 60));
+            gameGraphics.drawString("Game Paused", WIDTH / 8, HEIGHT / 2);
+        }
+
         if(controller.gameOver){
             printGameOver(gameGraphics);
         }

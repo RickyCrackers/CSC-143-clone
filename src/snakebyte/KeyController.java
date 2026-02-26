@@ -1,6 +1,8 @@
 package snakebyte;
 
 import java.awt.Color;
+import utils.ArrayList;
+import utils.List;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -27,15 +29,18 @@ import javax.swing.Timer;
 public class KeyController implements KeyListener, ChangeListener {
 
     public static final int DELAY = 100;
+    private static final int START_FOOD_COUNT = 1;
+    private static final int EXTRA_FOOD_PER_EAT = 2;
 
     protected Color     bottomColor;
     protected JPanel    bottomPanel;
     protected int       delay;
-    protected Food      food;
+    protected List<Food> foods;
     protected boolean   gameOver;
     private   boolean   gamePaused;
     protected int       initSpeed;
     private   int       score;
+    protected int       level;
     protected Snake     snake;
     protected Timer     timer;
     protected JSlider   speedSlider;
@@ -49,11 +54,18 @@ public class KeyController implements KeyListener, ChangeListener {
         gamePaused  = false;
         timer 	    = new Timer(delay, this::animate);      // sets timer to animate game
         snake       = new Snake();
-        food        = new Food();
         score       = 0;
+        foods = new ArrayList<>();
+
+        for (int i = 0; i < START_FOOD_COUNT; i++) {
+            foods.add(new Food(snake));
+        }
+
 
         timer.start();
         timer.setCoalesce(true);
+
+        level = 1;
 
         //create slider that enables users to increase/decrease speed
         int minSpeed = 1;
@@ -107,11 +119,35 @@ public class KeyController implements KeyListener, ChangeListener {
     //      and food updated to a new random location, snake body also
     //      increases by one square.
     private void checkSnakeFoodCollision() {
-        if (snake.getX() == food.getX() && snake.getY() == food.getY()) {
-            score++;
-            food.setLocation();
-            snake.grow();
+        boolean ateFood = false;
+
+        for (int i = foods.size() - 1; i >= 0 && !ateFood; i--) {
+            Food food = foods.get(i);
+
+            if (snake.getX() == food.getX() && snake.getY() == food.getY()) {
+                foods.remove(i);
+                score++;
+                snake.grow();
+
+                for (int j = 0; j < EXTRA_FOOD_PER_EAT; j++) {
+                    foods.add(new Food(snake));
+                }
+
+                if (score % 5 == 0) {
+                    level++;
+                    int newSliderValue = Math.min(level + initSpeed - 1, speedSlider.getMaximum());
+                    speedSlider.setValue(newSliderValue);
+                    System.out.println("level: " + level);
+                }
+
+                ateFood = true;
+
+            }
+
+
+
         }
+
 
     }
 
@@ -132,8 +168,12 @@ public class KeyController implements KeyListener, ChangeListener {
 
     // TODO: This method create a new game, use SHIFT key to generate
     //       a new game in detectKeyPress
-    private void createNewGame() {
+    public void createNewGame() {
         SwingUtilities.invokeLater(Viewer::new);
+    }
+
+    public boolean isPaused() {
+        return gamePaused;
     }
 
     //TODO: Use "switch expression" to create the actions for
@@ -197,6 +237,14 @@ public class KeyController implements KeyListener, ChangeListener {
     //TODO: Get Score
     public int getScore() {
         return score;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public List<Food> getFoods() {
+        return foods;
     }
 
     //TODO: (1) update key presses for starting game
@@ -287,6 +335,9 @@ public class KeyController implements KeyListener, ChangeListener {
             timer.stop();
         } else {
             timer.start();
+        }
+        if (gamePanel != null) {
+            gamePanel.repaint();
         }
 
     }
