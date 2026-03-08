@@ -54,18 +54,17 @@ public class LinkedList <E> implements List<E> {
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     private Node<E> node(int index) {
+        Node<E> current;
         if (index < size / 2) {
-            Node<E> current = first;
-            for (int i = 0; i < index; i++,  current = current.next) {
-            }
-            return current;
+            current = first;
+            for (int i = 0; i < index; i++,  current = current.next) {}
         } else {
-            Node<E> current = last;
-            for (int i = size - 1 ; i > index; i--,  current = current.prev) {
-            }
-            return current;
+            current = last;
+            for (int i = size - 1 ; i > index; i--,  current = current.prev) {}
         }
+        return current;
     }
 
     private void insertBefore(int index, E item) {
@@ -223,6 +222,7 @@ public class LinkedList <E> implements List<E> {
         return size;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

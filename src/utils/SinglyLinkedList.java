@@ -41,13 +41,13 @@ public class SinglyLinkedList<E> implements List<E> {
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     private void append(E item) {
         if (first == null) {
             first = new Node<>(item);
         } else {
             Node<E> current = first;
-            for (;current.next != null; current = current.next) {
-            }
+            for (;current.next != null; current = current.next) {}
             current.next = new Node<>(item);
         }
     }
@@ -75,14 +75,14 @@ public class SinglyLinkedList<E> implements List<E> {
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     private E detachNode(Node<E> node) {
         E removedData = node.data;
         if (node == first) {
             first = first.next;
         } else {
             Node<E> current = first;
-            for (; current != null && current.next != node; current = current.next) {
-            }
+            for (; current != null && current.next != node; current = current.next) {}
             if (current != null) {
                 current.next = node.next;
 
@@ -192,6 +192,7 @@ public class SinglyLinkedList<E> implements List<E> {
         return indexOf(item) != -1;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

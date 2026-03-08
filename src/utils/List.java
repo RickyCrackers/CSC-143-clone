@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.NoSuchElementException;
+
 /**
  * Create a List interface that will be used to describe the behavior
  * of lists in both an Array List and Linked List data structure.
@@ -28,6 +30,38 @@ public interface List<E> {
 
     default boolean contains(E item) {
         return indexOf(item) != -1;
+    }
+
+    default Iterator<E> iterator() {
+        return new Iterator<>() {
+            int index = 0;
+            boolean isRemovable = false;
+
+            @Override
+            public boolean hasNext() {
+                return index < size();
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException("No more elements in the list.");
+                }
+                E data = get(index++);
+                isRemovable = true;
+                return data;
+            }
+
+            @Override
+            public void remove() {
+                if (!isRemovable) {
+                    throw new IllegalStateException("Cannot remove elements from a non-removable list.");
+                }
+                List.this.remove(index - 1);
+                isRemovable = false;
+                index--;
+            }
+        };
     }
 
 
