@@ -175,6 +175,21 @@ public class JUNIT07QQMyStackTest {
     }
 
     /**
+     * Reverses the contents of a stack using a queue as auxiliary storage.
+     *
+     * @param stack the stack to reverse
+     */
+    private static void reverseStack(MyStack<Integer> stack) {
+        MyQueue<Integer> queue = new MyQueue<>();
+        for (int i = stack.size(); i > 0; i--) {
+            queue.add(stack.pop());
+        }
+        for (int i = queue.size(); i > 0; i--) {
+            stack.push(queue.remove());
+        }
+    }
+
+    /**
      * Returns true if the elements in the stack occur in ascending order
      * from top (smallest) to bottom (largest). An empty or single-element
      * stack is considered sorted. Restores the stack to its original state.
@@ -185,16 +200,13 @@ public class JUNIT07QQMyStackTest {
     public static boolean isSorted(MyStack<Integer> stack) {
 
         MyQueue<Integer> queue = new MyQueue<>();
+        boolean sorted         = true;
+        Integer prev           = null;
 
-        // Step 1: drain stack into queue (queue holds top→bottom order)
         for (int i = stack.size(); i > 0; i--) {
             queue.add(stack.pop());
         }
 
-        boolean sorted = true;
-        Integer prev   = null;
-
-        // Step 2: check ascending and push back into stack (now reversed)
         for (int i = queue.size(); i > 0; i--) {
             Integer current = queue.remove();
             if (prev != null && current < prev) {
@@ -204,14 +216,7 @@ public class JUNIT07QQMyStackTest {
             stack.push(current);
         }
 
-        // Step 3: stack is flipped — reverse again through queue to restore
-        for (int i = stack.size(); i > 0; i--) {
-            queue.add(stack.pop());
-        }
-
-        for (int i = queue.size(); i > 0; i--) {
-            stack.push(queue.remove());
-        }
+        reverseStack(stack);
 
         return sorted;
     }
@@ -229,7 +234,6 @@ public class JUNIT07QQMyStackTest {
 
         MyQueue<Integer> queue = new MyQueue<>();
 
-        // Step 1: find the minimum by draining stack into queue
         int min = stack.peek();
         for (int i = stack.size(); i > 0; i--) {
             int val = stack.pop();
@@ -239,7 +243,6 @@ public class JUNIT07QQMyStackTest {
             queue.add(val);
         }
 
-        // Step 2: drain queue back into stack, skipping all occurrences of min
         for (int i = queue.size(); i > 0; i--) {
             int val = queue.remove();
             if (val != min) {
@@ -247,14 +250,7 @@ public class JUNIT07QQMyStackTest {
             }
         }
 
-        // Step 3: stack is reversed — fix by routing through queue again
-        for (int i = stack.size(); i > 0; i--) {
-            queue.add(stack.pop());
-        }
-
-        for (int i = queue.size(); i > 0; i--) {
-            stack.push(queue.remove());
-        }
+        reverseStack(stack);
 
         return min;
     }
