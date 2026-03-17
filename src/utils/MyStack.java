@@ -59,7 +59,6 @@ public class MyStack<E> {
         if (first == null) {
             last = null;
         }
-        size--;
         return data;
     }
 
@@ -87,6 +86,7 @@ public class MyStack<E> {
      * @throws EmptyStackException if this stack is empty
      */
     public E pop() {
+        size--;
         return detach();
     }
 
