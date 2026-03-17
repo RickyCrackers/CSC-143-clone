@@ -10,7 +10,6 @@ import java.util.EmptyStackException;
  */
 public class MyStack<E> {
     private Node<E> first;
-    @SuppressWarnings("unused")
     private Node<E> last;
     private int size;
 
@@ -20,8 +19,10 @@ public class MyStack<E> {
      * @param <E> the type of data held in the node
      */
     public static class Node<E> {
-        private final E data;
-        private final Node<E> next;
+        @SuppressWarnings("FieldMayBeFinal")
+        private E data;
+        @SuppressWarnings("FieldMayBeFinal")
+        private Node<E> next;
 
         /**
          * Constructs a new node with the specified data and next node reference.
@@ -118,7 +119,7 @@ public class MyStack<E> {
      * @return true if and only if this stack contains no items; false otherwise
      */
     public boolean isEmpty() {
-        return size == 0;
+        return first == null && last == null;
     }
 
     /**

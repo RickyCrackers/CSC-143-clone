@@ -19,7 +19,8 @@ public class MyQueue<E> {
      * @param <E> the type of data held in the node
      */
     public static class Node<E> {
-        private final E data;
+        @SuppressWarnings("FieldMayBeFinal")
+        private E data;
         private Node<E> next;
 
         /**
