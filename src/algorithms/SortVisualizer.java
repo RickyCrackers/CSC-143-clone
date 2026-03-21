@@ -10,6 +10,11 @@ import java.awt.BorderLayout;
 import java.io.Serial;
 import java.util.Random;
 
+/**
+ * Interactive sorting algorithm visualizer.
+ * Animates Bubble Sort, Insertion Sort, and Selection Sort
+ * step-by-step using a Swing Timer and a bar chart panel.
+ */
 public class SortVisualizer extends JFrame {
 
     @Serial
@@ -30,6 +35,10 @@ public class SortVisualizer extends JFrame {
     private boolean isSorted = false;
     private final static int DELAY = 200; // ms
 
+    /**
+     * Builds and lays out the visualizer window, wires all action listeners,
+     * and generates the first random data set.
+     */
     public SortVisualizer() {
         // Set up the Main GUI Window
         setTitle("Sorting Visualizer");
@@ -70,6 +79,9 @@ public class SortVisualizer extends JFrame {
         timer = new Timer(DELAY, _ -> animate()); // 1000 ms delay
     }
 
+    /**
+     * Creates and displays the visualizer on the Event Dispatch Thread.
+     */
     static void main() {
         // Ensure GUI creation happens on the Event Dispatch Thread (EDT)
         SwingUtilities.invokeLater(() -> {
@@ -82,6 +94,10 @@ public class SortVisualizer extends JFrame {
     // Animation dispatcher
     // -------------------------------------------------------------------------
 
+    /**
+     * Dispatches one animation tick to the currently selected algorithm.
+     * Called by the Swing Timer on every firing.
+     */
     private void animate() {
 
         switch (currentAlgorithm) {
@@ -101,6 +117,12 @@ public class SortVisualizer extends JFrame {
     //   Each full pass "bubbles" the largest unsorted value to the right end.
     // -------------------------------------------------------------------------
 
+    /**
+     * Advances Bubble Sort by one comparison (and swap if needed).
+     * Increments the inner index j each tick; when the inner pass
+     * finishes, increments the outer index i and resets j.
+     * Stops the timer once all passes are complete.
+     */
     private void bubbleSortStep() {
         if (i < data.length - 1) {
             if (j < data.length - i - 1) {
@@ -135,6 +157,12 @@ public class SortVisualizer extends JFrame {
     //     j  = the position being compared / shifted (inner index, walks left)
     // -------------------------------------------------------------------------
 
+    /**
+     * Advances Insertion Sort by one comparison (and shift if needed).
+     * While the element at j is less than its left neighbor it is
+     * swapped leftward; otherwise the outer index i advances.
+     * Stops the timer once every element has been inserted.
+     */
     private void insertionSortStep() {
 
         // Advance i until we find an unsorted element to place
@@ -170,6 +198,13 @@ public class SortVisualizer extends JFrame {
     //     minIndex = index of the current minimum found
     // -------------------------------------------------------------------------
 
+    /**
+     * Advances Selection Sort by one scan step.
+     * Tracks the running minimum index minIndex as j walks
+     * through the unsorted region; when the region is exhausted, swaps the
+     * minimum into position i and advances the outer boundary.
+     * Stops the timer once every position has been filled.
+     */
     private void selectionSortStep() {
 
         if (i < data.length - 1) {
@@ -203,6 +238,17 @@ public class SortVisualizer extends JFrame {
         }
     }
 
+    // -------------------------------------------------------------------------
+    // Helper Methods
+    // -------------------------------------------------------------------------
+
+    /**
+     * Generates an integer array of the given size filled with random values
+     * in the range [10, 510].
+     *
+     * @param size the desired array length
+     * @return a new array of random integers
+     */
     private int[] generateRandomArray(int size) {
         int[] array = new int[size];
         Random rand = new Random();
@@ -213,11 +259,18 @@ public class SortVisualizer extends JFrame {
         return array;
     }
 
+    /**
+     * Set a new random array length between 10 and 25.
+     */
     private void setDataSize() {
         Random rand = new Random();
-        size = rand.nextInt(15) + 10;         // Values between 10 and 25
+        size = rand.nextInt(15) + 10;
     }
 
+    /**
+     * Reads the currently selected algorithm name from the combo box and
+     * stores it in {@code currentAlgorithm}.
+     */
     private void selectAlgorithm() {
         currentAlgorithm    = (String) algorithmSelector.getSelectedItem();
 
@@ -227,6 +280,10 @@ public class SortVisualizer extends JFrame {
         }
     }
 
+    /**
+     * Stops the timer, generates a fresh random array of a new random size,
+     * hands the new array to the sort panel, and resets all state variables.
+     */
     private void resetData() {
         timer.stop();
         isSorted = false;
@@ -239,6 +296,10 @@ public class SortVisualizer extends JFrame {
         System.out.println("Data reset.");
     }
 
+    /**
+     * Resets the three shared loop-state variables to their starting values
+     * so that the next sort begins from a clean slate.
+     */
     private void resetStateVariables() {
         i        = 0;
         j        = 1;           // Insertion sort begins its inner scan at index 1
@@ -246,6 +307,10 @@ public class SortVisualizer extends JFrame {
     }
 
 
+    /**
+     * Starts the animation timer if a sort is not already in progress.
+     * State variables are reset before the timer fires its first tick.
+     */
     private void startTimer() {
         if (!isSorted) {
             isSorted = true;
@@ -254,6 +319,10 @@ public class SortVisualizer extends JFrame {
         }
     }
 
+    /**
+     * Stops the animation timer, clears the bar highlights, and marks the
+     * sort as complete so that {@link #startTimer()} can be called again.
+     */
     private void stopTimer() {
         // Sorting is complete
         timer.stop();
@@ -263,6 +332,12 @@ public class SortVisualizer extends JFrame {
         System.out.println("Sorting Finished!");
     }
 
+    /**
+     * Swaps the elements at positions a and b in the data array.
+     *
+     * @param a index of the first element
+     * @param b index of the second element
+     */
     private void swap (int a, int b){
         // Perform the swap
         int temp = data[a];
@@ -270,6 +345,13 @@ public class SortVisualizer extends JFrame {
         data[b] = temp;
     }
 
+    /**
+     * Highlights the two given bar indices and requests a repaint so the
+     * current comparison or swap is visible in the next frame.
+     *
+     * @param a index of the first bar to highlight
+     * @param b index of the second bar to highlight
+     */
     private void updateComparison ( int a, int b){
         // Request a repaint after each step/swap
         sortPanel.setCurrentComparison(a, b); // Highlight bars
